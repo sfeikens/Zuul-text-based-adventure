@@ -1,0 +1,9 @@
+Zuul.zip downloaden
+Projectmap maken
+dotnet run (speel de game)
+zuul-code lezen (grote taak, dus kijk ook naar de tijd indeling) 
+(3 vragen opschrijven en bespreken wij later)
+github account aanmakengit repository (link mailen)  
+opdrachten:look 
+up/down
+player class 

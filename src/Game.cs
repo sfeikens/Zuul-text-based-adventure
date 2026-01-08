@@ -99,6 +99,9 @@ class Game
 			case "quit":
 				wantToQuit = true;
 				break;
+			case "look":
+				printLook();
+				break;
 		}
 
 		return wantToQuit;
@@ -141,6 +144,10 @@ class Game
 		}
 
 		currentRoom = nextRoom;
+		Console.WriteLine(currentRoom.GetLongDescription());
+	}
+	private void printLook()
+	{
 		Console.WriteLine(currentRoom.GetLongDescription());
 	}
 }
