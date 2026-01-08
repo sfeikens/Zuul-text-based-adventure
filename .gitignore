@@ -2,6 +2,7 @@
 build
 bin
 obj
+Opdracht_pdfjes
 
 *.sln
 .DS*
