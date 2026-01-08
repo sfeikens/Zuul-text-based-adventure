@@ -4,13 +4,17 @@ class Game
 {
 	// Private fields
 	private Parser parser;
+	private Player player;
+
 	private Room currentRoom;
 
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
+		player = new Player();
 		CreateRooms();
+		currentRoom = player.CurrentRoom;
 	}
 
 	// Initialise the Rooms (and the Items)
@@ -30,6 +34,7 @@ class Game
 		outside.AddExit("west", pub);
 
 		theatre.AddExit("west", outside);
+		theatre.AddExit("south", library);
 
 		pub.AddExit("east", outside);
 
@@ -40,6 +45,7 @@ class Game
 		office.AddExit("north", library);
 
 		library.AddExit("south", office);
+		library.AddExit("north", theatre);
 
 		// Create your Items here
 		// ...
@@ -47,7 +53,7 @@ class Game
 		// ...
 
 		// Start game outside
-		currentRoom = outside;
+		player.CurrentRoom=outside;
 	}
 
 	//  Main play routine. Loops until end of play.
