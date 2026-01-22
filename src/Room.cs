@@ -24,9 +24,9 @@ class Room
 	}
 
 	// Add an item to this room.
-	public void AddItem(Item item)
+	public void AddItem(string description, int weight)
 	{
-		items.Add(item);
+    	items.Add(new Item(weight, description));
 	}
 
 	// Return the description of the room.
