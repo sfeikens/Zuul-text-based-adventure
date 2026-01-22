@@ -35,6 +35,8 @@ class Game
 		outside.AddExit("south", lab);
 		outside.AddExit("west", pub);
 		outside.AddExit("north", gym);
+		outside.AddItem(new Item(10, "sword"));
+		outside.AddItem(new Item(5, "ball"));
 
 		theatre.AddExit("west", outside);
 		theatre.AddExit("south", library);
@@ -74,6 +76,11 @@ class Game
 		bool finished = false;
 		while (!finished)
 		{
+			if (player.Health <= 0)
+			{
+				Console.WriteLine("You have died!");
+				break;
+			}
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
 		}
@@ -113,6 +120,8 @@ class Game
 				break;
 			case "go":
 				GoRoom(command);
+				player.Damage(5);
+				Console.WriteLine($"You feel a bit tired. (-5 Health){Environment.NewLine}Current Health: {player.Health}/{player.MaxHealth}");
 				break;
 			case "quit":
 				wantToQuit = true;
