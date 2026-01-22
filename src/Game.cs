@@ -129,6 +129,15 @@ class Game
 			case "look":
 				printLook();
 				break;
+			case "take":
+				// implement take command
+				break;
+			case "drop":
+				// implement drop command
+				break;
+			case "inventory":
+				// implement inventory command
+				break;
 		}
 
 		return wantToQuit;
