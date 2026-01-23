@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 class CommandLibrary
 {
 	// A List that holds all valid command words
@@ -18,6 +16,7 @@ class CommandLibrary
 		validCommands.Add("drop");
 		validCommands.Add("inventory");
 		validCommands.Add("status");
+		validCommands.Add("use");
 	}
 
 	// Check whether a given string is a valid command word.

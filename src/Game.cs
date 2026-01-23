@@ -1,10 +1,12 @@
 using System;
-
 class Game
 {
 	// Private fields
 	private Parser parser;
 	private Player player;
+	private Room winRoom;
+
+	private bool wantToQuit;
 
 	// Constructor
 	public Game()
@@ -34,6 +36,7 @@ class Game
 		outside.AddExit("north", gym);
 		outside.AddItem("sword", 10, false);
 		outside.AddItem("ball", 5, false);
+		outside.AddItem("health_potion", 2, true);
 
 		theatre.AddExit("west", outside);
 		theatre.AddExit("south", library);
@@ -53,6 +56,9 @@ class Game
 		gym.AddExit("up", gymupper);
 
 		gymupper.AddExit("down", gym);
+		gymupper.AddItem("WIN!", 2, true);
+
+		winRoom = gymupper;
 
 		// Create your Items here
 		// ...
@@ -102,7 +108,7 @@ class Game
 	// Otherwise false is returned.
 	private bool ProcessCommand(Command command)
 	{
-		bool wantToQuit = false;
+		wantToQuit = false;
 
 		if(command.IsUnknown())
 		{
@@ -117,8 +123,6 @@ class Game
 				break;
 			case "go":
 				GoRoom(command);
-				player.Damage(5);
-				Console.WriteLine($"You feel a bit tired. (-5 Health){Environment.NewLine}Current Health: {player.Health}/{player.MaxHealth}");
 				break;
 			case "quit":
 				wantToQuit = true;
@@ -137,6 +141,9 @@ class Game
 				break;
 			case "status":
 				PrintStatus();
+				break;
+			case "use":
+				PlayerUseItem(command);
 				break;
 		}
 
@@ -178,9 +185,16 @@ class Game
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
-
+		player.Damage(5);
+		Console.WriteLine($"You feel a bit tired. (-5 Health){Environment.NewLine}Current Health: {player.Health}/{player.MaxHealth}");
+	
 		player.CurrentRoom = nextRoom;
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		if (player.CurrentRoom == winRoom)
+		{
+			Console.WriteLine("Congratulations! You found the secret winning item and have won the game!");
+			wantToQuit = true;
+		}
 	}
 	private void printLook()
 	{
@@ -221,5 +235,10 @@ class Game
 	{
 		Console.WriteLine($"Health: {player.Health}/{player.MaxHealth}");
 		Console.WriteLine("Backpack: " + player.ShowBackpack());
+	}
+
+	private void PlayerUseItem(Command command)
+	{
+		player.Use(command);
 	}
 }

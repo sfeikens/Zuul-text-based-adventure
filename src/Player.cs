@@ -86,21 +86,46 @@ class Player
 		return backpack.Show();
 	}
 
+	
 	// methods
-	public string Use(string itemName)
+	public void Use(Command command)
 	{
-		// TODO implementeer CORRECTLY
-		Item item = backpack.Get(itemName);
-
-		if (item != null && item.IsExpendable)
+		if (!command.HasSecondWord())
 		{
-			backpack.Remove(itemName);
+			Console.WriteLine("Use what?");
+			return;
 		}
 
-		if (item != null)
+		string itemName = command.SecondWord;
+		Item item = backpack.Peek(itemName);
+		if (item == null)
 		{
-			return $"You used the {itemName}.";
+			Console.WriteLine("You don't have that item.");
+			return;
 		}
-		return $"You don't have the {itemName}.";
+
+		if (item.IsExpendable)
+		{
+			backpack.Get(itemName);
+			Console.WriteLine($"You used the {itemName}, it is now gone from your inventory.");
+		}
+		else
+		{
+			Console.WriteLine($"You used the {itemName}.");
+		}
+
+		switch (itemName)
+		{
+			case "health_potion":
+				Heal(20);
+				Console.WriteLine("You feel rejuvenated! (+20 Health)");
+				break;
+			case "WIN!":
+				Console.WriteLine("Congratulations! You found the secret winning item and have won the game!");
+				break;
+			default:
+				Console.WriteLine("Nothing happened.");
+				break;
+		}
 	}
 }
