@@ -30,9 +30,9 @@ class Room
 	}
 
 	// Add an item to this room.
-	public void AddItem(string description, int weight)
+	public void AddItem(string description, int weight, bool isusable)
 	{
-    	chest.Put(description, new Item(weight, description));
+    	chest.Put(description, new Item(weight, description, isusable));
 	}
 
 	// Return the description of the room.

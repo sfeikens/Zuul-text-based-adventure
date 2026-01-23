@@ -32,8 +32,8 @@ class Game
 		outside.AddExit("south", lab);
 		outside.AddExit("west", pub);
 		outside.AddExit("north", gym);
-		outside.AddItem("sword", 10);
-		outside.AddItem("ball", 5);
+		outside.AddItem("sword", 10, false);
+		outside.AddItem("ball", 5, false);
 
 		theatre.AddExit("west", outside);
 		theatre.AddExit("south", library);

@@ -85,4 +85,22 @@ class Player
 	{
 		return backpack.Show();
 	}
+
+	// methods
+	public string Use(string itemName)
+	{
+		// TODO implementeer CORRECTLY
+		Item item = backpack.Get(itemName);
+
+		if (item != null && item.IsExpendable)
+		{
+			backpack.Remove(itemName);
+		}
+
+		if (item != null)
+		{
+			return $"You used the {itemName}.";
+		}
+		return $"You don't have the {itemName}.";
+	}
 }
