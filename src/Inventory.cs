@@ -12,6 +12,27 @@ public class Inventory
         this.currentWeight = 0;
         this.items = new Dictionary<string, Item>();
     }
+
+    // methods
+    public int TotalWeight()
+    {
+        int total = 0;
+        // TODO implementeer:
+        // Loop door alle items
+        // Tel alle gewichten op
+        foreach (Item item in items.Values)
+        {
+            total += item.Weight;
+        }
+        return total;
+    }
+    
+    public int FreeWeight()
+    {
+        // TODO implementeer:
+        // Vergelijk MaxWeight en TotalWeight()
+        return maxWeight - TotalWeight();
+    }
     public bool Put(string itemName, Item item)
     {
         // Check het gewicht van het Item
@@ -41,5 +62,25 @@ public class Inventory
             return item;
         }
         return null;
+    }
+
+    public Item Peek(string itemName)
+    {
+        // Zoek Item in de Dictionary zonder te verwijderen
+        // Return Item of null
+        if (items.ContainsKey(itemName))
+        {
+            return items[itemName];
+        }
+        return null;
+    }
+
+    public string Show()
+    {
+        if (items.Count == 0)
+        {
+            return "no items";
+        }
+        return string.Join(", ", items.Keys);
     }
 }

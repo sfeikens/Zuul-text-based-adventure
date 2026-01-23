@@ -6,7 +6,13 @@ class Room
 	// Private fields
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
-	private List<Item> items; // stores items in this room.
+	private Inventory chest; // stores items in this room.
+
+	// Property
+	public Inventory Chest
+	{
+		get { return chest; }
+	}
 
 	// Create a room described "description". Initially, it has no exits.
 	// "description" is something like "in a kitchen" or "in a court yard".
@@ -14,7 +20,7 @@ class Room
 	{
 		description = desc;
 		exits = new Dictionary<string, Room>();
-		items = new List<Item>();
+		chest = new Inventory(999999); // een Room kan veel items bevatten
 	}
 
 	// Define an exit for this room.
@@ -26,7 +32,7 @@ class Room
 	// Add an item to this room.
 	public void AddItem(string description, int weight)
 	{
-    	items.Add(new Item(weight, description));
+    	chest.Put(description, new Item(weight, description));
 	}
 
 	// Return the description of the room.
@@ -75,22 +81,16 @@ class Room
 	// "Items: sword, shield".
 	private string GetItemString()
 	{
-		if (items.Count == 0)
-		{
-			return "Items: none";
-		}
-		string str = "Items: ";
-		str += string.Join(", ", items.Select(i => i.Description));
-		return str;
+		return "Items: " + chest.Show();
 	}
 
 	public void RemoveItem(Item item)
 	{
-		items.Remove(item);
+		chest.Get(item.Description);
 	}
 
 	public Item GetItem(string itemName)
 	{
-		return items.FirstOrDefault(i => i.Description == itemName);
+		return chest.Peek(itemName);
 	}
 }

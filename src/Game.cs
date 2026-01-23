@@ -6,15 +6,12 @@ class Game
 	private Parser parser;
 	private Player player;
 
-	private Room currentRoom;
-
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
 		player = new Player();
 		CreateRooms();
-		currentRoom = player.CurrentRoom;
 	}
 
 	// Initialise the Rooms (and the Items)
@@ -76,7 +73,7 @@ class Game
 		bool finished = false;
 		while (!finished)
 		{
-			if (player.Health <= 0)
+			if (!player.IsAlive())
 			{
 				Console.WriteLine("You have died!");
 				break;
@@ -97,7 +94,7 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
-		Console.WriteLine(currentRoom.GetLongDescription());
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
 	// Given a command, process (that is: execute) the command.
@@ -130,13 +127,16 @@ class Game
 				printLook();
 				break;
 			case "take":
-				TakeItem(command);
+				Take(command);
 				break;
 			case "drop":
-				// implement drop command
+				Drop(command);
 				break;
 			case "inventory":
-				// implement inventory command
+				PrintInventory();
+				break;
+			case "status":
+				PrintStatus();
 				break;
 		}
 
@@ -172,22 +172,22 @@ class Game
 		string direction = command.SecondWord;
 
 		// Try to go to the next room.
-		Room nextRoom = currentRoom.GetExit(direction);
+		Room nextRoom = player.CurrentRoom.GetExit(direction);
 		if (nextRoom == null)
 		{
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
 
-		currentRoom = nextRoom;
-		Console.WriteLine(currentRoom.GetLongDescription());
+		player.CurrentRoom = nextRoom;
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 	private void printLook()
 	{
-		Console.WriteLine(currentRoom.GetLongDescription());
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
-	private void TakeItem(Command command)
+	private void Take(Command command)
 	{
 		if (!command.HasSecondWord())
 		{
@@ -196,22 +196,30 @@ class Game
 		}
 
 		string itemName = command.SecondWord;
-		Item item = currentRoom.GetItem(itemName);
+		player.TakeFromChest(itemName);
+	}
 
-		if (item == null)
+	private void Drop(Command command)
+	{
+		if (!command.HasSecondWord())
 		{
-			Console.WriteLine("There is no such item in this room.");
+			Console.WriteLine("Drop what?");
 			return;
 		}
 
-		if (player.Inventory.Put(item.Description, item))
-		{
-			currentRoom.RemoveItem(item);
-			Console.WriteLine($"You took the {itemName}.");
-		}
-		else
-		{
-			Console.WriteLine("Your inventory is full.");
-		}
+		string itemName = command.SecondWord;
+		player.DropToChest(itemName);
+	}
+
+	private void PrintInventory()
+	{
+		Console.WriteLine("You are carrying:");
+		Console.WriteLine(player.ShowBackpack());
+	}
+
+	private void PrintStatus()
+	{
+		Console.WriteLine($"Health: {player.Health}/{player.MaxHealth}");
+		Console.WriteLine("Backpack: " + player.ShowBackpack());
 	}
 }

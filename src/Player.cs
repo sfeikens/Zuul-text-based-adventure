@@ -9,7 +9,7 @@ class Player
 		CurrentRoom = null;
 		MaxHealth = 100;
 		Health = MaxHealth;
-		Inventory = new Inventory(50); // max gewicht 50
+		backpack = new Inventory(25); // 25kg is best zwaar om de hele dag te dragen
 	}
 
 	// health properties
@@ -17,7 +17,7 @@ class Player
 	public int Health { get; private set; }
 
 	// inventory
-	public Inventory Inventory { get; private set; }
+	private Inventory backpack;
 
 	// speler verliest health
 	public void Damage(int amount)
@@ -47,4 +47,42 @@ class Player
 		return Health > 0;
 	}
 
+	public bool TakeFromChest(string itemName)
+	{
+		Item item = CurrentRoom.Chest.Peek(itemName);
+		if (item == null)
+		{
+			Console.WriteLine("Item is not in Room");
+			return false;
+		}
+		if (backpack.Put(itemName, item))
+		{
+			CurrentRoom.Chest.Get(itemName);
+			Console.WriteLine($"You took the {itemName}.");
+			return true;
+		}
+		else
+		{
+			Console.WriteLine("Item doesn't fit in your inventory");
+			return false;
+		}
+	}
+
+	public bool DropToChest(string itemName)
+	{
+		Item item = backpack.Get(itemName);
+		if (item == null)
+		{
+			Console.WriteLine("You don't have that Item");
+			return false;
+		}
+		CurrentRoom.Chest.Put(itemName, item);
+		Console.WriteLine($"You dropped the {itemName}.");
+		return true;
+	}
+
+	public string ShowBackpack()
+	{
+		return backpack.Show();
+	}
 }
