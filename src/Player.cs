@@ -9,11 +9,15 @@ class Player
 		CurrentRoom = null;
 		MaxHealth = 100;
 		Health = MaxHealth;
+		Inventory = new Inventory(50); // max gewicht 50
 	}
 
 	// health properties
 	public int MaxHealth { get; private set; }
 	public int Health { get; private set; }
+
+	// inventory
+	public Inventory Inventory { get; private set; }
 
 	// speler verliest health
 	public void Damage(int amount)
