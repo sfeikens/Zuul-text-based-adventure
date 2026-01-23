@@ -6,8 +6,4 @@ Opdracht_pdfjes
 
 *.sln
 .DS*
-zuul-opdrachten.pdf
-zuul-opdrachten.html
-.gitignore
-assignment.txt
-assignment_clean.txt
+PRIVATE
