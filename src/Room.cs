@@ -83,4 +83,14 @@ class Room
 		str += string.Join(", ", items.Select(i => i.Description));
 		return str;
 	}
+
+	public void RemoveItem(Item item)
+	{
+		items.Remove(item);
+	}
+
+	public Item GetItem(string itemName)
+	{
+		return items.FirstOrDefault(i => i.Description == itemName);
+	}
 }

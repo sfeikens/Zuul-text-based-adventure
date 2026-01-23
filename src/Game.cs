@@ -130,7 +130,7 @@ class Game
 				printLook();
 				break;
 			case "take":
-				// implement take command
+				TakeItem(command);
 				break;
 			case "drop":
 				// implement drop command
@@ -185,5 +185,33 @@ class Game
 	private void printLook()
 	{
 		Console.WriteLine(currentRoom.GetLongDescription());
+	}
+
+	private void TakeItem(Command command)
+	{
+		if (!command.HasSecondWord())
+		{
+			Console.WriteLine("Take what?");
+			return;
+		}
+
+		string itemName = command.SecondWord;
+		Item item = currentRoom.GetItem(itemName);
+
+		if (item == null)
+		{
+			Console.WriteLine("There is no such item in this room.");
+			return;
+		}
+
+		if (player.Inventory.Put(item.Description, item))
+		{
+			currentRoom.RemoveItem(item);
+			Console.WriteLine($"You took the {itemName}.");
+		}
+		else
+		{
+			Console.WriteLine("Your inventory is full.");
+		}
 	}
 }
