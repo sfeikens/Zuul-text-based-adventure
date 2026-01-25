@@ -34,8 +34,8 @@ class Game
 		outside.AddExit("south", lab);
 		outside.AddExit("west", pub);
 		outside.AddExit("north", gym);
-		outside.AddItem("sword", 10, false);
-		outside.AddItem("ball", 5, false);
+
+		outside.AddItem("key",1,true);
 		outside.AddItem("health_potion", 2, true);
 
 		theatre.AddExit("west", outside);
@@ -56,7 +56,7 @@ class Game
 		gym.AddExit("up", gymupper);
 
 		gymupper.AddExit("down", gym);
-		gymupper.AddItem("WIN!", 2, true);
+		gymupper.AddLock();
 
 		winRoom = gymupper;
 
@@ -185,6 +185,12 @@ class Game
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
+
+		if (nextRoom.islocked)
+		{
+			Console.WriteLine("This room is locked, you will need to find a key.");
+			return;
+		}
 		player.Damage(5);
 		Console.WriteLine($"You feel a bit tired. (-5 Health){Environment.NewLine}Current Health: {player.Health}/{player.MaxHealth}");
 	
@@ -192,7 +198,7 @@ class Game
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 		if (player.CurrentRoom == winRoom)
 		{
-			Console.WriteLine("Congratulations! You found the secret winning item and have won the game!");
+			Console.WriteLine("Congratulations! You found the secret winning room and have won the game!");
 			wantToQuit = true;
 		}
 	}

@@ -8,6 +8,8 @@ class Room
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest; // stores items in this room.
 
+	public bool islocked;
+
 	// Property
 	public Inventory Chest
 	{
@@ -21,6 +23,7 @@ class Room
 		description = desc;
 		exits = new Dictionary<string, Room>();
 		chest = new Inventory(999999); // een Room kan veel items bevatten
+		islocked = false;
 	}
 
 	// Define an exit for this room.
@@ -39,6 +42,16 @@ class Room
 	public string GetShortDescription()
 	{
 		return description;
+	}
+
+	public void AddLock()
+	{
+		islocked = true;
+	}
+
+	public void RemoveLock()
+	{
+		islocked = false;
 	}
 
 	// Return a long description of this room, in the form:

@@ -104,6 +104,32 @@ class Player
 			return;
 		}
 
+		switch (itemName)
+		{
+			case "health_potion":
+				Heal(20);
+				Console.WriteLine("You feel rejuvenated! (+20 Health)");
+				break;
+			case "key":
+				Room LockedRoom = CurrentRoom.GetExit(command.ThirdWord);
+				if (LockedRoom == null)
+				{
+					Console.WriteLine("There is no room in that direction.");
+					return;
+				}
+				if (!LockedRoom.islocked)
+				{
+					Console.WriteLine("That room is not locked.");
+					return;
+				}
+				LockedRoom.RemoveLock();
+				Console.WriteLine("The room is now unlocked.");
+				break;
+			default:
+				Console.WriteLine("Nothing happened.");
+				return;
+		}
+
 		if (item.IsExpendable)
 		{
 			backpack.Get(itemName);
@@ -112,20 +138,6 @@ class Player
 		else
 		{
 			Console.WriteLine($"You used the {itemName}.");
-		}
-
-		switch (itemName)
-		{
-			case "health_potion":
-				Heal(20);
-				Console.WriteLine("You feel rejuvenated! (+20 Health)");
-				break;
-			case "WIN!":
-				Console.WriteLine("Congratulations! You found the secret winning item and have won the game!");
-				break;
-			default:
-				Console.WriteLine("Nothing happened.");
-				break;
 		}
 	}
 }
