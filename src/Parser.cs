@@ -32,7 +32,7 @@ class Parser
 		}
 
 		// If not, create a "null" command (for unknown command).
-		return new Command(null, null);
+		return new Command(null, null, null);
 	}
 
 	// Prints a list of valid command words from commandLibrary.
