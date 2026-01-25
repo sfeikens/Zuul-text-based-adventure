@@ -125,6 +125,12 @@ class Player
 				LockedRoom.RemoveLock();
 				Console.WriteLine("The room is now unlocked.");
 				break;
+			case "Suspicious_Apple":
+				Console.WriteLine("You eat the Suspicious Apple. It was delicious!");
+				Console.WriteLine("However, you suddenly feel very sleepy...");
+				Damage(10);
+				Console.WriteLine("You lost 10 Health.");
+				break;
 			default:
 				Console.WriteLine("Nothing happened.");
 				return;

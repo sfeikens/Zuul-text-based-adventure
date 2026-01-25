@@ -46,6 +46,8 @@ class Game
 		lab.AddExit("north", outside);
 		lab.AddExit("east", office);
 
+		lab.AddItem("Suspicious_Apple", 5, false);
+
 		office.AddExit("west", lab);
 		office.AddExit("north", library);
 
