@@ -36,7 +36,7 @@ class Game
 		outside.AddExit("north", gym);
 
 		outside.AddItem("key",1,true);
-		outside.AddItem("health_potion", 2, true);
+		outside.AddItem("medkit", 2, true);
 
 		theatre.AddExit("west", outside);
 		theatre.AddExit("south", library);
@@ -56,6 +56,8 @@ class Game
 
 		gym.AddExit("south", outside);
 		gym.AddExit("up", gymupper);
+		gym.AddEnemy(30, "A wild gym trainer!");
+		gym.AddItem("sword", 10, false);
 
 		gymupper.AddExit("down", gym);
 		gymupper.AddLock();
@@ -148,7 +150,6 @@ class Game
 				PlayerUseItem(command);
 				break;
 		}
-
 		return wantToQuit;
 	}
 
@@ -171,6 +172,11 @@ class Game
 	// room, otherwise print an error message.
 	private void GoRoom(Command command)
 	{
+		if (player.CurrentRoom.HasEnemy)
+		{
+			Console.WriteLine("There is an enemy in this room, stopping you from leaving");
+			return;
+		}
 		if(!command.HasSecondWord())
 		{
 			// if there is no second word, we don't know where to go...

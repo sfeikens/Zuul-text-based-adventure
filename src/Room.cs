@@ -7,14 +7,16 @@ class Room
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest; // stores items in this room.
+	private Enemy _enemy;
 
 	public bool islocked;
 
-	// Property
 	public Inventory Chest
 	{
 		get { return chest; }
 	}
+
+	public Enemy enemy => _enemy;
 
 	// Create a room described "description". Initially, it has no exits.
 	// "description" is something like "in a kitchen" or "in a court yard".
@@ -53,6 +55,18 @@ class Room
 	{
 		islocked = false;
 	}
+
+	public void AddEnemy(int health, string description)
+	{
+		_enemy = new Enemy(health, description, this);
+	}
+
+	public void RemoveEnemy()
+	{
+		_enemy = null;
+	}
+
+	public bool HasEnemy => _enemy != null;
 
 	// Return a long description of this room, in the form:
 	//     You are in the kitchen.

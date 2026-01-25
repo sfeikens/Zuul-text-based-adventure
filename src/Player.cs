@@ -106,7 +106,7 @@ class Player
 
 		switch (itemName)
 		{
-			case "health_potion":
+			case "medkit":
 				Heal(20);
 				Console.WriteLine("You feel rejuvenated! (+20 Health)");
 				break;
@@ -130,6 +130,23 @@ class Player
 				Console.WriteLine("However, you suddenly feel very sleepy...");
 				Damage(10);
 				Console.WriteLine("You lost 10 Health.");
+				break;
+			case "sword":
+				if (CurrentRoom.HasEnemy)
+				{
+					int SwordDamage=5;
+					CurrentRoom.enemy.Damage(SwordDamage);
+					Console.WriteLine($"You damaged the {CurrentRoom.enemy.EnemyDescription()} for {SwordDamage} hitpoints! He has {CurrentRoom.enemy.CurrentHealth} health left.");
+					if (CurrentRoom.enemy.CurrentHealth==0)
+					{
+						Console.WriteLine($"You have defeated the {CurrentRoom.enemy.EnemyDescription()}!");
+						CurrentRoom.RemoveEnemy();
+					}
+				}
+				else
+				{
+					Console.WriteLine("There is no enemy to target");
+				}
 				break;
 			default:
 				Console.WriteLine("Nothing happened.");
