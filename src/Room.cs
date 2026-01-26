@@ -4,8 +4,10 @@ using System.Linq;
 class Room
 {
 	// Private fields
+	private string name;
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
+	public static List<string> Rooms = new List<string>();
 	private Inventory chest; // stores items in this room.
 	private Enemy _enemy;
 
@@ -20,9 +22,11 @@ class Room
 
 	// Create a room described "description". Initially, it has no exits.
 	// "description" is something like "in a kitchen" or "in a court yard".
-	public Room(string desc)
+	public Room(string name, string desc)
 	{
+		this.name = name;
 		description = desc;
+		Rooms.Add(name);
 		exits = new Dictionary<string, Room>();
 		chest = new Inventory(999999); // een Room kan veel items bevatten
 		islocked = false;
@@ -119,5 +123,10 @@ class Room
 	public Item GetItem(string itemName)
 	{
 		return chest.Peek(itemName);
+	}
+
+	public string[] GetRoomNames()
+	{
+		return Rooms.ToArray();
 	}
 }

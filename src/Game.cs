@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 class Game
 {
 	// Private fields
 	private Parser parser;
 	private Player player;
 	private Room winRoom;
+	private Dictionary<string, Room> roomsByName;
 
 	private bool wantToQuit;
 
@@ -13,6 +15,7 @@ class Game
 	{
 		parser = new Parser();
 		player = new Player();
+		roomsByName = new Dictionary<string, Room>();
 		CreateRooms();
 	}
 
@@ -20,14 +23,14 @@ class Game
 	private void CreateRooms()
 	{
 		// Create the rooms
-		Room outside = new Room("outside the main entrance of the university");
-		Room theatre = new Room("in a lecture theatre");
-		Room pub = new Room("in the campus pub");
-		Room lab = new Room("in a computing lab");
-		Room office = new Room("in the computing admin office");
-		Room library = new Room("in the campus library");
-		Room gym = new Room("in the campus gym");
-		Room gymupper = new Room("in the campus gym shower room");
+		Room outside = new Room("outside", "outside the main entrance of the university");
+		Room theatre = new Room("theatre", "in a lecture theatre");
+		Room pub = new Room("pub", "in the campus pub");
+		Room lab = new Room("lab", "in a computing lab");
+		Room office = new Room("office", "in the computing admin office");
+		Room library = new Room("library", "in the campus library");
+		Room gym = new Room("gym", "in the campus gym");
+		Room gymupper = new Room("gymupper", "in the campus gym shower room");
 
 		// Initialise room exits
 		outside.AddExit("east", theatre);
@@ -58,6 +61,16 @@ class Game
 
 		winRoom = gymupper;
 
+		// Add rooms to dictionary
+		roomsByName.Add("outside", outside);
+		roomsByName.Add("theatre", theatre);
+		roomsByName.Add("pub", pub);
+		roomsByName.Add("lab", lab);
+		roomsByName.Add("office", office);
+		roomsByName.Add("library", library);
+		roomsByName.Add("gym", gym);
+		roomsByName.Add("gymupper", gymupper);
+
 		// Create your Items here
 		Item Sword = new Item(10, "sword", false, 10);
 		Item Suspicious_Apple = new Item(5, "suspicious_Apple", false);
@@ -66,13 +79,22 @@ class Game
 		Item Heavy_Shield = new Item(25, "heavy_shield", false);
 		// And add them to the Rooms
 		outside.AddItem(Sword);
-		outside.AddItem(Key);
 		outside.AddItem(Medkit);
 		lab.AddItem(Suspicious_Apple);
+		// Randomly place the key
+		string keyRoomName = GetRandomRoomName();
+		Room keyRoom = roomsByName[keyRoomName];
+		keyRoom.AddItem(Key);
 		// Give enemies Items
 		gym.enemy.EquipItem(Sword);
 		// Start game outside
 		player.CurrentRoom=outside;
+	}
+
+	private string GetRandomRoomName()
+	{
+		var available = Room.Rooms.Where(r => r != "gymupper").ToList();
+		return available[new Random().Next(available.Count)];
 	}
 
 	//  Main play routine. Loops until end of play.
