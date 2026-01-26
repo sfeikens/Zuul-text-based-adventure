@@ -16,7 +16,7 @@ class Game
 		CreateRooms();
 	}
 
-	// Initialise the Rooms (and the Items)
+	// Initialise the Rooms (and the Items and Enemies)
 	private void CreateRooms()
 	{
 		// Create the rooms
