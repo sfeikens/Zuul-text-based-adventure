@@ -23,6 +23,12 @@ class Enemy
             CurrentHealth = 0;
         }
     }
+    public void Attacks(Player player)
+    {
+        int damage = 10; // vaste schade voor nu
+        player.Damage(damage);
+        Console.WriteLine($"The {Description} attacks you for {damage} damage!");
+    }
     public string EnemyDescription()
     {
         return Description;

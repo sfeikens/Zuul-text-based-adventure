@@ -110,6 +110,8 @@ class Player
 				Heal(20);
 				Console.WriteLine("You feel rejuvenated! (+20 Health)");
 				break;
+
+
 			case "key":
 				Room LockedRoom = CurrentRoom.GetExit(command.ThirdWord);
 				if (LockedRoom == null)
@@ -125,12 +127,16 @@ class Player
 				LockedRoom.RemoveLock();
 				Console.WriteLine("The room is now unlocked.");
 				break;
-			case "Suspicious_Apple":
+
+
+			case "suspicious_Apple":
 				Console.WriteLine("You eat the Suspicious Apple. It was delicious!");
 				Console.WriteLine("However, you suddenly feel very sleepy...");
 				Damage(10);
 				Console.WriteLine("You lost 10 Health.");
 				break;
+
+
 			case "sword":
 				if (CurrentRoom.HasEnemy)
 				{
@@ -148,6 +154,8 @@ class Player
 					Console.WriteLine("There is no enemy to target");
 				}
 				break;
+
+
 			default:
 				Console.WriteLine("Nothing happened.");
 				return;

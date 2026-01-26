@@ -35,9 +35,6 @@ class Game
 		outside.AddExit("west", pub);
 		outside.AddExit("north", gym);
 
-		outside.AddItem("key",1,true);
-		outside.AddItem("medkit", 2, true);
-
 		theatre.AddExit("west", outside);
 		theatre.AddExit("south", library);
 
@@ -45,8 +42,6 @@ class Game
 
 		lab.AddExit("north", outside);
 		lab.AddExit("east", office);
-
-		lab.AddItem("Suspicious_Apple", 5, false);
 
 		office.AddExit("west", lab);
 		office.AddExit("north", library);
@@ -57,7 +52,6 @@ class Game
 		gym.AddExit("south", outside);
 		gym.AddExit("up", gymupper);
 		gym.AddEnemy(30, "A wild gym trainer!");
-		gym.AddItem("sword", 10, false);
 
 		gymupper.AddExit("down", gym);
 		gymupper.AddLock();
@@ -65,9 +59,16 @@ class Game
 		winRoom = gymupper;
 
 		// Create your Items here
-		// ...
+		Item Sword = new Item(10, "sword", false);
+		Item Suspicious_Apple = new Item(5, "suspicious_Apple", false);
+		Item Key = new Item(1, "key", true);
+		Item Medkit = new Item(3, "medkit", true);
+		Item Heavy_Shield = new Item(25, "heavy_shield", false);
 		// And add them to the Rooms
-		// ...
+		outside.AddItem(Sword);
+		outside.AddItem(Key);
+		outside.AddItem(Medkit);
+		lab.AddItem(Suspicious_Apple);
 
 		// Start game outside
 		player.CurrentRoom=outside;
@@ -119,6 +120,8 @@ class Game
 			Console.WriteLine("I don't know what you mean...");
 			return wantToQuit; // false
 		}
+		// Check which command it is and execute it.
+		 EnemyAttacksPlayer();
 
 		switch (command.CommandWord)
 		{
@@ -254,5 +257,13 @@ class Game
 	private void PlayerUseItem(Command command)
 	{
 		player.Use(command);
+	}
+
+	private void EnemyAttacksPlayer()
+	{
+		if (player.CurrentRoom.HasEnemy)
+		{
+			player.CurrentRoom.enemy.Attacks(player);
+		}
 	}
 }
