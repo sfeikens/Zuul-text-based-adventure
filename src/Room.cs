@@ -125,6 +125,11 @@ class Room
 		return chest.Peek(itemName);
 	}
 
+	public string GetRoomName()
+	{
+		return this.name;
+	}
+
 	public string[] GetRoomNames()
 	{
 		return Rooms.ToArray();

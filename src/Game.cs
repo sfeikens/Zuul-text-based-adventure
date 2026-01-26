@@ -93,7 +93,7 @@ class Game
 
 	private string GetRandomRoomName()
 	{
-		var available = Room.Rooms.Where(r => r != "gymupper").ToList();
+		var available = Room.Rooms.Where(r => r != winRoom.GetRoomName()).ToList();
 		return available[new Random().Next(available.Count)];
 	}
 
