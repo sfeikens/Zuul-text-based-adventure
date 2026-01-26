@@ -2,9 +2,9 @@ class Enemy
 {
     public int MaxHealth;
     public int CurrentHealth;
-    public string Description;
+    private string Description;
     public int AttackDamage { get; set; }
-    public bool IsAlive
+    private bool IsAlive
     {
         get { return CurrentHealth > 0; }
     }
@@ -48,5 +48,10 @@ class Enemy
     public void EquipItem(Item item)
     {
         EquippedItem = item;
+    }
+
+    public bool IsEnemyAlive()
+    {
+        return IsAlive;
     }
 }

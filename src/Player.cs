@@ -2,6 +2,8 @@ class Player
 {
 	// auto property
 	public Room CurrentRoom { get; set; }
+	public string KeyRoomName { get; set; }
+	public string WinRoomName { get; set; }
 
 	// constructor
 	public Player()
@@ -155,20 +157,22 @@ class Player
 				}
 				break;
 
+			case "map":
+				Console.WriteLine("You look at the map. It shows the location of the key room and the winning room.");
+				Console.WriteLine("Key Room: " + KeyRoomName);
+				Console.WriteLine("Winning Room: " + WinRoomName);
 
-			default:
-				Console.WriteLine("Nothing happened.");
-				return;
+
+				break;
+				default:
+					Console.WriteLine("Nothing happened.");
+					return;
 		}
 
 		if (item.IsExpendable)
 		{
 			backpack.Get(itemName);
 			Console.WriteLine($"You used the {itemName}, it is now gone from your inventory.");
-		}
-		else
-		{
-			Console.WriteLine($"You used the {itemName}.");
 		}
 	}
 }

@@ -60,6 +60,7 @@ class Game
 		gymupper.AddLock();
 
 		winRoom = gymupper;
+		player.WinRoomName = "gymupper";
 
 		// Add rooms to dictionary
 		roomsByName.Add("outside", outside);
@@ -77,6 +78,7 @@ class Game
 		Item Key = new Item(1, "key", true);
 		Item Medkit = new Item(3, "medkit", true);
 		Item Heavy_Shield = new Item(25, "heavy_shield", false);
+		Item Map = new Item(1, "map", false);
 		// And add them to the Rooms
 		outside.AddItem(Sword);
 		outside.AddItem(Medkit);
@@ -85,6 +87,11 @@ class Game
 		string keyRoomName = GetRandomRoomName();
 		Room keyRoom = roomsByName[keyRoomName];
 		keyRoom.AddItem(Key);
+		player.KeyRoomName = keyRoomName;
+		// Randomly place map
+		string mapRoomName = GetRandomRoomName();
+		Room mapRoom = roomsByName[mapRoomName];
+		mapRoom.AddItem(Map);
 		// Give enemies Items
 		gym.enemy.EquipItem(Sword);
 		// Start game outside
@@ -144,7 +151,6 @@ class Game
 			return wantToQuit; // false
 		}
 		// Check which command it is and execute it.
-		 EnemyAttacksPlayer();
 
 		switch (command.CommandWord)
 		{
@@ -176,6 +182,7 @@ class Game
 				PlayerUseItem(command);
 				break;
 		}
+		EnemyAttacksPlayer();
 		return wantToQuit;
 	}
 
