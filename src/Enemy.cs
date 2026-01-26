@@ -3,17 +3,20 @@ class Enemy
     public int MaxHealth;
     public int CurrentHealth;
     public string Description;
+    public int AttackDamage { get; set; }
     public bool IsAlive
     {
         get { return CurrentHealth > 0; }
     }
     public Room currentroom;
-    public Enemy(int maxHealth, string description, Room room)
+    public Item EquippedItem;
+    public Enemy(int maxHealth, string description, Room room, int? damage = null)
     {
         MaxHealth = maxHealth;
         CurrentHealth = maxHealth;
         Description = description;
         currentroom = room;
+        AttackDamage = damage ?? 0;
     }
     public void Damage(int amount)
     {
@@ -25,7 +28,15 @@ class Enemy
     }
     public void Attacks(Player player)
     {
-        int damage = 10; // vaste schade voor nu
+        int damage = this.AttackDamage;
+        if (EquippedItem != null && EquippedItem.IsWeapon && EquippedItem.WeaponDamage > 0)
+        {
+            damage = EquippedItem.WeaponDamage;
+        }
+        else
+        {
+            return;
+        }
         player.Damage(damage);
         Console.WriteLine($"The {Description} attacks you for {damage} damage!");
     }
@@ -33,5 +44,9 @@ class Enemy
     {
         return Description;
     }
-    
+
+    public void EquipItem(Item item)
+    {
+        EquippedItem = item;
+    }
 }

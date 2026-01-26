@@ -51,7 +51,7 @@ class Game
 
 		gym.AddExit("south", outside);
 		gym.AddExit("up", gymupper);
-		gym.AddEnemy(30, "A wild gym trainer!");
+		gym.AddEnemy(30, "wild gym trainer", 10);
 
 		gymupper.AddExit("down", gym);
 		gymupper.AddLock();
@@ -59,7 +59,7 @@ class Game
 		winRoom = gymupper;
 
 		// Create your Items here
-		Item Sword = new Item(10, "sword", false);
+		Item Sword = new Item(10, "sword", false, 10);
 		Item Suspicious_Apple = new Item(5, "suspicious_Apple", false);
 		Item Key = new Item(1, "key", true);
 		Item Medkit = new Item(3, "medkit", true);
@@ -69,7 +69,8 @@ class Game
 		outside.AddItem(Key);
 		outside.AddItem(Medkit);
 		lab.AddItem(Suspicious_Apple);
-
+		// Give enemies Items
+		gym.enemy.EquipItem(Sword);
 		// Start game outside
 		player.CurrentRoom=outside;
 	}

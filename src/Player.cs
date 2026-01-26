@@ -140,10 +140,10 @@ class Player
 			case "sword":
 				if (CurrentRoom.HasEnemy)
 				{
-					int SwordDamage=5;
+					int SwordDamage = item.WeaponDamage;
 					CurrentRoom.enemy.Damage(SwordDamage);
 					Console.WriteLine($"You damaged the {CurrentRoom.enemy.EnemyDescription()} for {SwordDamage} hitpoints! He has {CurrentRoom.enemy.CurrentHealth} health left.");
-					if (CurrentRoom.enemy.CurrentHealth==0)
+					if (CurrentRoom.enemy.CurrentHealth == 0)
 					{
 						Console.WriteLine($"You have defeated the {CurrentRoom.enemy.EnemyDescription()}!");
 						CurrentRoom.RemoveEnemy();
