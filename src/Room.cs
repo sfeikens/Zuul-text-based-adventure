@@ -6,6 +6,7 @@ class Room
 	// Private fields
 	private string name;
 	private string description;
+	private string floor;
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	public static List<string> Rooms = new List<string>();
 	private Inventory chest; // stores items in this room.
@@ -22,10 +23,11 @@ class Room
 
 	// Create a room described "description". Initially, it has no exits.
 	// "description" is something like "in a kitchen" or "in a court yard".
-	public Room(string name, string desc)
+	public Room(string name, string desc, string floor)
 	{
 		this.name = name;
 		description = desc;
+		this.floor = floor;
 		Rooms.Add(name);
 		exits = new Dictionary<string, Room>();
 		chest = new Inventory(999999); // een Room kan veel items bevatten
@@ -111,6 +113,11 @@ class Room
 	public string[] GetExitStringArray()
 	{
 		return exits.Keys.ToArray();
+	}
+
+	public string GetFloor()
+	{
+		return this.floor;
 	}
 
 	// Return a string describing the room's items, for example

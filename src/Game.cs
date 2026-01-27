@@ -23,14 +23,16 @@ class Game
 	private void CreateRooms()
 	{
 		// Create the rooms
-		Room outside = new Room("outside", "outside the main entrance of the university");
-		Room theatre = new Room("theatre", "in a lecture theatre");
-		Room pub = new Room("pub", "in the campus pub");
-		Room lab = new Room("lab", "in a computing lab");
-		Room office = new Room("office", "in the computing admin office");
-		Room library = new Room("library", "in the campus library");
-		Room gym = new Room("gym", "in the campus gym");
-		Room gymupper = new Room("gymupper", "in the campus gym shower room");
+		Room outside = new Room("outside", "outside the main entrance of the university", "ground");
+		Room theatre = new Room("theatre", "in a lecture theatre", "ground");
+		Room pub = new Room("pub", "in the campus pub", "ground");
+		Room lab = new Room("lab", "in a computing lab", "ground");
+		Room office = new Room("office", "in the computing admin office", "ground");
+		Room library = new Room("library", "in the campus library", "ground");
+		Room gym = new Room("gym", "in the campus gym", "ground");
+		Room gymupper = new Room("gymupper", "in the campus gym shower room", "first");
+		Room pubbasement = new Room("pubbasement", "in the pub basement", "basement");
+		Room pubcellars = new Room("pubcellars", "in the pub cellars","basement");
 
 		// Initialise room exits
 		outside.AddExit("east", theatre);
@@ -42,6 +44,13 @@ class Game
 		theatre.AddExit("south", library);
 
 		pub.AddExit("east", outside);
+		pub.AddExit("down", pubbasement);
+		
+		pubbasement.AddExit("up", pub);
+		pubbasement.AddExit("east", pubcellars);
+
+		pubcellars.AddExit("west", pubbasement);
+
 
 		lab.AddExit("north", outside);
 		lab.AddExit("east", office);
@@ -71,6 +80,8 @@ class Game
 		roomsByName.Add("library", library);
 		roomsByName.Add("gym", gym);
 		roomsByName.Add("gymupper", gymupper);
+		roomsByName.Add("pubbasement", pubbasement);
+		roomsByName.Add("pubcellars", pubcellars);
 
 		// Create your Items here
 		Item Sword = new Item(10, "sword", false, 10);
@@ -100,12 +111,12 @@ class Game
 		// Randomly place ladder in a room that doesn't have up/down exits
 		string ladderRoomName = GetRandomRoomName();
 		Room ladderRoom = roomsByName[ladderRoomName];
-		string ladderRoomExits = string.Join(", ", ladderRoom.GetExitStringArray());
-		while (ladderRoomExits.Contains("up") || ladderRoomExits.Contains("down"))
+		string ladderRoomFloor = ladderRoom.GetFloor();
+		while (ladderRoomFloor != "ground")
 		{
 			ladderRoomName = GetRandomRoomName();
 			ladderRoom = roomsByName[ladderRoomName];
-			ladderRoomExits = string.Join(", ", ladderRoom.GetExitStringArray());
+			ladderRoomFloor = ladderRoom.GetFloor();
 		}
 		ladderRoom.AddItem(Ladder);
 		player.LadderRoomName = ladderRoomName;
