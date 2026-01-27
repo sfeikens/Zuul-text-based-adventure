@@ -60,7 +60,7 @@ class Game
 		gymupper.AddLock();
 
 		winRoom = gymupper;
-		player.WinRoomName = "gymupper";
+		player.WinRoomName = winRoom.GetRoomName();
 
 		// Add rooms to dictionary
 		roomsByName.Add("outside", outside);
@@ -79,6 +79,7 @@ class Game
 		Item Medkit = new Item(3, "medkit", true);
 		Item Heavy_Shield = new Item(25, "heavy_shield", false);
 		Item Map = new Item(1, "map", false);
+		Item Ladder = new Item(15, "ladder", false);
 		// And add them to the Rooms
 		outside.AddItem(Sword);
 		outside.AddItem(Medkit);
@@ -92,6 +93,11 @@ class Game
 		string mapRoomName = GetRandomRoomName();
 		Room mapRoom = roomsByName[mapRoomName];
 		mapRoom.AddItem(Map);
+		// Randomly place ladder
+		string ladderRoomName = GetRandomRoomName();
+		Room ladderRoom = roomsByName[ladderRoomName];
+		ladderRoom.AddItem(Ladder);
+		player.LadderRoomName = ladderRoomName;
 		// Give enemies Items
 		gym.enemy.EquipItem(Sword);
 		// Start game outside
@@ -218,6 +224,12 @@ class Game
 		}
 
 		string direction = command.SecondWord;
+		bool hasLadder = player.PeekBackpack("ladder") != null;
+		if ((direction == "up" || direction == "down") && !hasLadder)
+		{
+			Console.WriteLine("You can't go that way without a ladder!");
+			return;
+		}
 
 		// Try to go to the next room.
 		Room nextRoom = player.CurrentRoom.GetExit(direction);

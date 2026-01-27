@@ -4,6 +4,7 @@ class Player
 	public Room CurrentRoom { get; set; }
 	public string KeyRoomName { get; set; }
 	public string WinRoomName { get; set; }
+	public string LadderRoomName { get; set; }
 
 	// constructor
 	public Player()
@@ -88,6 +89,15 @@ class Player
 		return backpack.Show();
 	}
 
+	public string PeekBackpack(string itemName)
+	{
+		Item item = backpack.Peek(itemName);
+		if (item == null)
+		{
+			return null;
+		}
+		return item.Description;
+	}
 	
 	// methods
 	public void Use(Command command)
@@ -161,6 +171,7 @@ class Player
 				Console.WriteLine("You look at the map. It shows the location of the key room and the winning room.");
 				Console.WriteLine("Key Room: " + KeyRoomName);
 				Console.WriteLine("Winning Room: " + WinRoomName);
+				Console.WriteLine("Ladder Room: " + LadderRoomName);
 
 
 				break;
