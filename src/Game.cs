@@ -80,26 +80,39 @@ class Game
 		Item Heavy_Shield = new Item(25, "heavy_shield", false);
 		Item Map = new Item(1, "map", false);
 		Item Ladder = new Item(15, "ladder", false);
+
 		// And add them to the Rooms
 		outside.AddItem(Sword);
 		outside.AddItem(Medkit);
 		lab.AddItem(Suspicious_Apple);
+
 		// Randomly place the key
 		string keyRoomName = GetRandomRoomName();
 		Room keyRoom = roomsByName[keyRoomName];
 		keyRoom.AddItem(Key);
 		player.KeyRoomName = keyRoomName;
+
 		// Randomly place map
 		string mapRoomName = GetRandomRoomName();
 		Room mapRoom = roomsByName[mapRoomName];
 		mapRoom.AddItem(Map);
-		// Randomly place ladder
+
+		// Randomly place ladder in a room that doesn't have up/down exits
 		string ladderRoomName = GetRandomRoomName();
 		Room ladderRoom = roomsByName[ladderRoomName];
+		string ladderRoomExits = string.Join(", ", ladderRoom.GetExitStringArray());
+		while (ladderRoomExits.Contains("up") || ladderRoomExits.Contains("down"))
+		{
+			ladderRoomName = GetRandomRoomName();
+			ladderRoom = roomsByName[ladderRoomName];
+			ladderRoomExits = string.Join(", ", ladderRoom.GetExitStringArray());
+		}
 		ladderRoom.AddItem(Ladder);
 		player.LadderRoomName = ladderRoomName;
+
 		// Give enemies Items
 		gym.enemy.EquipItem(Sword);
+
 		// Start game outside
 		player.CurrentRoom=outside;
 	}

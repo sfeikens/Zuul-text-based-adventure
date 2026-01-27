@@ -108,6 +108,11 @@ class Room
 		return str;
 	}
 
+	public string[] GetExitStringArray()
+	{
+		return exits.Keys.ToArray();
+	}
+
 	// Return a string describing the room's items, for example
 	// "Items: sword, shield".
 	private string GetItemString()
