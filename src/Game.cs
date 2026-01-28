@@ -63,7 +63,6 @@ class Game
 
 		gym.AddExit("south", outside);
 		gym.AddExit("up", gymupper);
-		gym.AddEnemy(30, "wild gym trainer", 10);
 
 		gymupper.AddExit("down", gym);
 		gymupper.AddLock();
@@ -108,7 +107,7 @@ class Game
 		Room mapRoom = roomsByName[mapRoomName];
 		mapRoom.AddItem(Map);
 
-		// Randomly place ladder in a room that doesn't have up/down exits
+		// Randomly place ladder in a room that is on the ground floor
 		string ladderRoomName = GetRandomRoomName();
 		Room ladderRoom = roomsByName[ladderRoomName];
 		string ladderRoomFloor = ladderRoom.GetFloor();
@@ -121,8 +120,16 @@ class Game
 		ladderRoom.AddItem(Ladder);
 		player.LadderRoomName = ladderRoomName;
 
-		// Give enemies Items
+		// Add enemies to rooms
+		gym.AddEnemy(30, "wild gym trainer", 10);
+
+		// And give enemies Items
 		gym.enemy.EquipItem(Sword);
+
+		// Create structures
+		Structure Forge = new Structure("Forge", "A sturdy forge for enhancing weapons.");
+		// Add structures to rooms
+		lab.AddStructure(Forge);
 
 		// Start game outside
 		player.CurrentRoom=outside;
@@ -209,7 +216,7 @@ class Game
 				PrintStatus();
 				break;
 			case "use":
-				PlayerUseItem(command);
+				PlayerUse(command);
 				break;
 		}
 		EnemyAttacksPlayer();
@@ -320,7 +327,7 @@ class Game
 		Console.WriteLine("Backpack: " + player.ShowBackpack());
 	}
 
-	private void PlayerUseItem(Command command)
+	private void PlayerUse(Command command)
 	{
 		player.Use(command);
 	}

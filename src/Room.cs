@@ -11,6 +11,8 @@ class Room
 	public static List<string> Rooms = new List<string>();
 	private Inventory chest; // stores items in this room.
 	private Enemy _enemy;
+	private Structure structure;
+	public List<Structure> structures = new List<Structure>();
 
 	public bool islocked;
 
@@ -145,5 +147,23 @@ class Room
 	public string[] GetRoomNames()
 	{
 		return Rooms.ToArray();
+	}
+	public void AddStructure(Structure structure)
+	{
+		this.structure = structure;
+		structures.Add(structure);
+	}
+	public string[] GetStructureNames()
+	{
+		return structures.Select(s => s.GetStructureName()).ToArray();
+	}
+	public string GetStructureName(string structureName)
+	{
+		Structure foundStructure = structures.FirstOrDefault(s => s.GetStructureName() == structureName);
+		if (foundStructure != null)
+		{
+			return foundStructure.GetStructureName();
+		}
+		return null;
 	}
 }
