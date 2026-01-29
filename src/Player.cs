@@ -200,7 +200,7 @@ class Player
 				}
 				switch (structureName)
 				{
-					case "Forge":
+					case "forge":
 						if (command.FourthWord == null)
 						{
 							Console.WriteLine("Use the forge on what?");

@@ -10,7 +10,7 @@ class Enemy
     }
     public Room currentroom;
     public Item EquippedItem;
-    public Enemy(int maxHealth, string description, Room room, int? damage = null)
+    public Enemy(int maxHealth, string description, Room room = null, int? damage = null)
     {
         MaxHealth = maxHealth;
         CurrentHealth = maxHealth;

@@ -120,14 +120,16 @@ class Game
 		ladderRoom.AddItem(Ladder);
 		player.LadderRoomName = ladderRoomName;
 
+		// Create enemies
+		Enemy trainer = new Enemy(30, "wild gym trainer");
 		// Add enemies to rooms
-		gym.AddEnemy(30, "wild gym trainer", 10);
+		gym.AddEnemy(trainer);
 
 		// And give enemies Items
 		gym.enemy.EquipItem(Sword);
 
 		// Create structures
-		Structure Forge = new Structure("Forge", "A sturdy forge for enhancing weapons.");
+		Structure Forge = new Structure("forge", "A sturdy forge for enhancing weapons.");
 		// Add structures to rooms
 		lab.AddStructure(Forge);
 

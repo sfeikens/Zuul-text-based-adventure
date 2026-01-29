@@ -64,9 +64,9 @@ class Room
 		islocked = false;
 	}
 
-	public void AddEnemy(int health, string description, int damage)
+	public void AddEnemy(Enemy enemy)
 	{
-		_enemy = new Enemy(health, description, this, damage);
+		_enemy = enemy;
 	}
 
 	public void RemoveEnemy()
