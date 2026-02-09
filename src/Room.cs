@@ -14,12 +14,13 @@ class Room
 	private Structure structure;
 	public List<Structure> structures = new List<Structure>();
 
-	public bool islocked;
+	private bool islocked;
 
 	public Inventory Chest
 	{
 		get { return chest; }
 	}
+
 
 	public Enemy enemy => _enemy;
 
@@ -62,6 +63,11 @@ class Room
 	public void RemoveLock()
 	{
 		islocked = false;
+	}
+
+	public bool IsLocked
+	{
+		get { return islocked; }
 	}
 
 	public void AddEnemy(Enemy enemy)

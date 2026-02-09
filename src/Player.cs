@@ -137,7 +137,7 @@ class Player
 							Console.WriteLine("There is no room in that direction.");
 							return;
 						}
-						if (!LockedRoom.islocked)
+						if (!LockedRoom.IsLocked)
 						{
 							Console.WriteLine("That room is not locked.");
 							return;

@@ -272,7 +272,7 @@ class Game
 			return;
 		}
 
-		if (nextRoom.islocked)
+		if (nextRoom.IsLocked)
 		{
 			Console.WriteLine("This room is locked, you will need to find a key.");
 			return;
