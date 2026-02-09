@@ -174,6 +174,15 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
+		Console.WriteLine("#################################################################");
+		Console.WriteLine("###########################  OBJECTIVE  #########################"); // for now...
+		Console.WriteLine("#################################################################");
+		Console.WriteLine();
+		Console.WriteLine("Your mission is to find the secret winning room and win the game!");
+		Console.WriteLine("In the future, the winning room and objective may be different each time you play.");
+		Console.WriteLine("But for now, I will leave you this hint: you feel incredibly stinky, maybe you should take a shower? ;)");
+		Console.WriteLine("Good luck!");
+		Console.WriteLine();
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 

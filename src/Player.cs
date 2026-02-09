@@ -153,24 +153,6 @@ class Player
 						Console.WriteLine("You lost 10 Health.");
 						break;
 
-					case "sword":
-						if (CurrentRoom.HasEnemy)
-						{
-							int SwordDamage = item.WeaponDamage;
-							CurrentRoom.enemy.Damage(SwordDamage);
-							Console.WriteLine($"You damaged the {CurrentRoom.enemy.EnemyDescription()} for {SwordDamage} hitpoints! He has {CurrentRoom.enemy.CurrentHealth} health left.");
-							if (CurrentRoom.enemy.CurrentHealth == 0)
-							{
-								Console.WriteLine($"You have defeated the {CurrentRoom.enemy.EnemyDescription()}!");
-								CurrentRoom.RemoveEnemy();
-							}
-						}
-						else
-						{
-							Console.WriteLine("There is no enemy to target");
-						}
-						break;
-
 					case "map":
 						Console.WriteLine("You look at the map. It shows the location of the key room and the winning room.");
 						Console.WriteLine("Key Room: " + KeyRoomName);
@@ -181,6 +163,26 @@ class Player
 					default:
 						Console.WriteLine("Nothing happened.");
 						return;
+				}
+
+				// Check if item is a weapon after the switch
+				if (item.IsWeapon)
+				{
+					if (CurrentRoom.HasEnemy)
+					{
+						int WeapDamage = item.WeaponDamage;
+						CurrentRoom.enemy.Damage(WeapDamage);
+						Console.WriteLine($"You damaged the {CurrentRoom.enemy.EnemyDescription()} for {WeapDamage} hitpoints! He has {CurrentRoom.enemy.CurrentHealth} health left.");
+						if (CurrentRoom.enemy.CurrentHealth == 0)
+						{
+							Console.WriteLine($"You have defeated the {CurrentRoom.enemy.EnemyDescription()}!");
+							CurrentRoom.RemoveEnemy();
+						}
+					}
+					else
+					{
+						Console.WriteLine("There is no enemy to target");
+					}
 				}
 
 				if (item.IsExpendable)

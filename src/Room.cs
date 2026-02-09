@@ -12,7 +12,7 @@ class Room
 	private Inventory chest; // stores items in this room.
 	private Enemy _enemy;
 	private Structure structure;
-	public List<Structure> structures = new List<Structure>();
+	private List<Structure> structures = new List<Structure>();
 
 	private bool islocked;
 
@@ -54,7 +54,7 @@ class Room
 	{
 		return description;
 	}
-
+	// Locked room functionality
 	public void AddLock()
 	{
 		islocked = true;
