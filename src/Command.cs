@@ -34,4 +34,10 @@ class Command
 	{
 		return ThirdWord != null;
 	}
+
+	// Return true if the command has a fourth word
+	public bool HasFourthWord()
+	{
+		return FourthWord != null;
+	}
 }

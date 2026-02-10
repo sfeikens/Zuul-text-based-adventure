@@ -162,7 +162,7 @@ class Player
 
 					default:
 						Console.WriteLine("Nothing happened.");
-						return;
+						break;
 				}
 
 				// Check if item is a weapon after the switch
