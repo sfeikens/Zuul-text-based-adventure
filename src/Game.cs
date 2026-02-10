@@ -94,31 +94,26 @@ class Game
 		// And add them to the Rooms
 		outside.AddItem(Sword);
 		outside.AddItem(Medkit);
+		outside.AddItem(Map);
 		lab.AddItem(Suspicious_Apple);
 
 		// Randomly place the key
-		string keyRoomName = GetRandomRoomName();
-		Room keyRoom = roomsByName[keyRoomName];
+		Room keyRoom = roomsByName[GetRandomRoomName()];
 		keyRoom.AddItem(Key);
-		player.KeyRoomName = keyRoomName;
+		player.KeyRoomName = keyRoom.GetRoomName();
 
 		// Randomly place map
-		string mapRoomName = GetRandomRoomName();
-		Room mapRoom = roomsByName[mapRoomName];
-		mapRoom.AddItem(Map);
+		//Room mapRoom = roomsByName[GetRandomRoomName()];
+		//mapRoom.AddItem(Map);
 
 		// Randomly place ladder in a room that is on the ground floor
-		string ladderRoomName = GetRandomRoomName();
-		Room ladderRoom = roomsByName[ladderRoomName];
-		string ladderRoomFloor = ladderRoom.GetFloor();
-		while (ladderRoomFloor != "ground")
+		Room ladderRoom = roomsByName[GetRandomRoomName()];
+		while (ladderRoom.GetFloor() != "ground")
 		{
-			ladderRoomName = GetRandomRoomName();
-			ladderRoom = roomsByName[ladderRoomName];
-			ladderRoomFloor = ladderRoom.GetFloor();
+			ladderRoom = roomsByName[GetRandomRoomName()];
 		}
 		ladderRoom.AddItem(Ladder);
-		player.LadderRoomName = ladderRoomName;
+		player.LadderRoomName = ladderRoom.GetRoomName();
 
 		// Create enemies
 		Enemy trainer = new Enemy(30, "wild gym trainer");
