@@ -131,7 +131,7 @@ class Player
 						break;
 
 					case "key":
-						Room LockedRoom = CurrentRoom.GetExit(command.ThirdWord);
+						Room LockedRoom = CurrentRoom.GetExit(command.FourthWord);
 						if (LockedRoom == null)
 						{
 							Console.WriteLine("There is no room in that direction.");
