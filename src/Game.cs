@@ -96,6 +96,7 @@ class Game
 		outside.AddItem(Bandage);
 		outside.AddItem(Map);
 		lab.AddItem(Suspicious_Apple);
+		lab.AddItem(Iron_Ingot);
 
 		// Randomly place the key
 		Room keyRoom = roomsByName[GetRandomRoomName()];
@@ -354,69 +355,80 @@ class Game
 	}
 
 	private void PlayerCraft(Command command)
-	{
-		if (player.CurrentRoom.GetStructureName("craftingtable") == null)
-		{
-			Console.WriteLine("Your current room does not contain a crafting table");
-			return;
-		}
+	{	
 		if (!command.HasSecondWord())
 		{
 			Console.WriteLine("Craft what?");
 			return;
 		}
 		string craftable = command.SecondWord;
-		Structure craftingTable = player.CurrentRoom.GetStructure("craftingtable");
-		var recipes = craftingTable.GetStructureRecipes();
-		if (recipes.ContainsKey(craftable))
+		
+		// Search through all structures in the current room to find one with the recipe
+		Structure craftingStructure = null;
+		string[] structureNames = player.CurrentRoom.GetStructureNames();
+		
+		foreach (string structureName in structureNames)
 		{
-			string[] ingredients = recipes[craftable];
-			// Check if player has all ingredients
-			bool hasAllIngredients = true;
+			Structure structure = player.CurrentRoom.GetStructure(structureName);
+			var recipes = structure.GetStructureRecipes();
+			if (recipes != null && recipes.ContainsKey(craftable))
+			{
+				craftingStructure = structure;
+				break;
+			}
+		}
+		
+		if (craftingStructure == null)
+		{
+			Console.WriteLine($"Cannot craft {craftable}. No structure in this room has a recipe for it.");
+			return;
+		}
+		
+		var recipeList = craftingStructure.GetStructureRecipes();
+		string[] ingredients = recipeList[craftable];
+		
+		// Check if player has all ingredients
+		bool hasAllIngredients = true;
+		foreach (string ingredient in ingredients)
+		{
+			if (player.PeekBackpack(ingredient) == null)
+			{
+				Console.WriteLine($"You don't have {ingredient}.");
+				hasAllIngredients = false;
+				break;
+			}
+		}
+		
+		if (hasAllIngredients)
+		{
+			// Remove all ingredients from backpack
 			foreach (string ingredient in ingredients)
 			{
-				if (player.PeekBackpack(ingredient) == null)
-				{
-					Console.WriteLine($"You don't have {ingredient}.");
-					hasAllIngredients = false;
-					break;
-				}
+				player.DropToChest(ingredient);
+				player.CurrentRoom.Chest.Get(ingredient);
 			}
 			
-			if (hasAllIngredients)
+			// Create the crafted item and add to backpack
+			Item craftedItem = CreateCraftedItem(craftable);
+			if (craftedItem != null)
 			{
-				// Remove all ingredients from backpack
-				foreach (string ingredient in ingredients)
-				{
-					player.DropToChest(ingredient);
-					player.CurrentRoom.Chest.Get(ingredient);
-				}
+				// Put the crafted item in the room chest first
+				player.CurrentRoom.Chest.Put(craftable, craftedItem);
 				
-				// Create the crafted item and add to backpack
-				Item craftedItem = CreateCraftedItem(craftable);
-				if (craftedItem != null)
+				// Try to take it from chest to backpack
+				if (player.TakeFromChest(craftable))
 				{
-					if (player.TakeFromChest(craftable))
-					{
-						player.CurrentRoom.Chest.Put(craftable, craftedItem);
-						player.TakeFromChest(craftable);
-						Console.WriteLine($"You successfully crafted a {craftable}!");
-					}
-					else
-					{
-						Console.WriteLine($"Your backpack is too full to carry the {craftable}.");
-						player.CurrentRoom.Chest.Put(craftable, craftedItem);
-					}
+					Console.WriteLine($"You successfully crafted a {craftable} at the {craftingStructure.GetStructureName()}!");
 				}
 				else
 				{
-					Console.WriteLine($"Cannot create {craftable}.");
+					Console.WriteLine($"Your backpack is too full to carry the {craftable}.");
 				}
 			}
-		}
-		else
-		{
-			Console.WriteLine($"Cannot craft {craftable} at this structure.");
+			else
+			{
+				Console.WriteLine($"Cannot create {craftable}.");
+			}
 		}
 	}
 	
