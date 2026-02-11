@@ -311,6 +311,30 @@ class Game
 	private void printLook()
 	{
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		
+		// Display available structures
+		string[] structureNames = player.CurrentRoom.GetStructureNames();
+		if (structureNames.Length > 0)
+		{
+			Console.WriteLine("\nStructures: " + String.Join(", ", structureNames));
+			
+			// Display recipes for each structure
+			foreach (string structureName in structureNames)
+			{
+				Structure structure = player.CurrentRoom.GetStructure(structureName);
+				var recipes = structure.GetStructureRecipes();
+				
+				if (recipes != null && recipes.Count > 0)
+				{
+					Console.WriteLine($"\n{structure.GetStructureName()} recipes:");
+					foreach (var recipe in recipes)
+					{
+						string ingredients = String.Join(", ", recipe.Value);
+						Console.WriteLine($"  - {recipe.Key}: requires {ingredients}");
+					}
+				}
+			}
+		}
 	}
 
 	private void Take(Command command)
