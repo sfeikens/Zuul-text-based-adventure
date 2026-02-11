@@ -86,8 +86,6 @@ class Game
 		Item Sword = new Item(10, "sword", false, 10);
 		Item Suspicious_Apple = new Item(5, "suspicious_Apple", false);
 		Item Key = new Item(1, "key", true);
-		Item Medkit = new Item(3, "medkit", true);
-		Item Heavy_Shield = new Item(25, "heavy_shield", false);
 		Item Map = new Item(1, "map", false);
 		Item Ladder = new Item(15, "ladder", false);
 		Item Iron_Ingot = new Item(2, "iron_ingot", false);
@@ -95,7 +93,7 @@ class Game
 
 		// And add them to the Rooms
 		outside.AddItem(Sword);
-		outside.AddItem(Medkit);
+		outside.AddItem(Bandage);
 		outside.AddItem(Map);
 		lab.AddItem(Suspicious_Apple);
 
@@ -373,11 +371,69 @@ class Game
 		if (recipes.ContainsKey(craftable))
 		{
 			string[] ingredients = recipes[craftable];
-			// TODO: Check if player has ingredients and craft item
+			// Check if player has all ingredients
+			bool hasAllIngredients = true;
+			foreach (string ingredient in ingredients)
+			{
+				if (player.PeekBackpack(ingredient) == null)
+				{
+					Console.WriteLine($"You don't have {ingredient}.");
+					hasAllIngredients = false;
+					break;
+				}
+			}
+			
+			if (hasAllIngredients)
+			{
+				// Remove all ingredients from backpack
+				foreach (string ingredient in ingredients)
+				{
+					player.DropToChest(ingredient);
+					player.CurrentRoom.Chest.Get(ingredient);
+				}
+				
+				// Create the crafted item and add to backpack
+				Item craftedItem = CreateCraftedItem(craftable);
+				if (craftedItem != null)
+				{
+					if (player.TakeFromChest(craftable))
+					{
+						player.CurrentRoom.Chest.Put(craftable, craftedItem);
+						player.TakeFromChest(craftable);
+						Console.WriteLine($"You successfully crafted a {craftable}!");
+					}
+					else
+					{
+						Console.WriteLine($"Your backpack is too full to carry the {craftable}.");
+						player.CurrentRoom.Chest.Put(craftable, craftedItem);
+					}
+				}
+				else
+				{
+					Console.WriteLine($"Cannot create {craftable}.");
+				}
+			}
 		}
 		else
 		{
 			Console.WriteLine($"Cannot craft {craftable} at this structure.");
+		}
+	}
+	
+	private Item CreateCraftedItem(string craftableName)
+	{
+		switch (craftableName.ToLower())
+		{
+			case "sword":
+				return new Item(10, "sword", false, 10);
+			case "enhanced_sword":
+				return new Item(12, "enhanced_sword", false, 15);
+			case "heavy_shield":
+				return new Item(25, "heavy_shield", false);
+			case "medkit":
+				return new Item(3, "medkit", true);
+			default:
+				return null;
 		}
 	}
 
