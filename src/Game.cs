@@ -90,6 +90,8 @@ class Game
 		Item Heavy_Shield = new Item(25, "heavy_shield", false);
 		Item Map = new Item(1, "map", false);
 		Item Ladder = new Item(15, "ladder", false);
+		Item Iron_Ingot = new Item(2, "iron_ingot", false);
+		Item Bandage = new Item(1, "bandage", false);
 
 		// And add them to the Rooms
 		outside.AddItem(Sword);
@@ -124,9 +126,21 @@ class Game
 		gym.enemy.EquipItem(Sword);
 
 		// Create structures
-		Structure Forge = new Structure("forge", "A sturdy forge for enhancing weapons.");
+		Structure Forge = new Structure("forge", "A sturdy forge for enhancing weapons.", new Dictionary<string, string[]>
+		{
+			{"sword", new string[] {"iron_ingot"}},
+			{"enhanced_sword", new string[] {"sword", "iron_ingot"}},
+			{"heavy_shield", new string[] {"iron_ingot"}}
+		});
+
+		Structure CraftingTable = new Structure("craftingtable","Used for crafting items", new Dictionary<string, string[]>
+		{
+			{"medkit", new string[] {"suspicious_apple", "bandage"}}
+		});
+
 		// Add structures to rooms
 		lab.AddStructure(Forge);
+		outside.AddStructure(CraftingTable);
 
 		// Start game outside
 		player.CurrentRoom=outside;
@@ -223,6 +237,9 @@ class Game
 				break;
 			case "use":
 				PlayerUse(command);
+				break;
+			case "craft":
+				PlayerCraft(command);
 				break;
 		}
 		EnemyAttacksPlayer();
@@ -336,6 +353,32 @@ class Game
 	private void PlayerUse(Command command)
 	{
 		player.Use(command);
+	}
+
+	private void PlayerCraft(Command command)
+	{
+		if (player.CurrentRoom.GetStructureName("craftingtable") == null)
+		{
+			Console.WriteLine("Your current room does not contain a crafting table");
+			return;
+		}
+		if (!command.HasSecondWord())
+		{
+			Console.WriteLine("Craft what?");
+			return;
+		}
+		string craftable = command.SecondWord;
+		Structure craftingTable = player.CurrentRoom.GetStructure("craftingtable");
+		var recipes = craftingTable.GetStructureRecipes();
+		if (recipes.ContainsKey(craftable))
+		{
+			string[] ingredients = recipes[craftable];
+			// TODO: Check if player has ingredients and craft item
+		}
+		else
+		{
+			Console.WriteLine($"Cannot craft {craftable} at this structure.");
+		}
 	}
 
 	private void EnemyAttacksPlayer()

@@ -17,6 +17,7 @@ class CommandLibrary
 		validCommands.Add("inventory");
 		validCommands.Add("status");
 		validCommands.Add("use");
+		validCommands.Add("craft");
 	}
 
 	// Check whether a given string is a valid command word.

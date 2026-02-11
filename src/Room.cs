@@ -11,8 +11,7 @@ class Room
 	public static List<string> Rooms = new List<string>();
 	private Inventory chest; // stores items in this room.
 	private Enemy _enemy;
-	private Structure structure;
-	private List<Structure> structures = new List<Structure>();
+	private Dictionary<string,Structure> structures = new Dictionary<string, Structure>();
 
 	private bool islocked;
 
@@ -156,19 +155,25 @@ class Room
 	}
 	public void AddStructure(Structure structure)
 	{
-		this.structure = structure;
-		structures.Add(structure);
+		structures.Add(structure.GetStructureName(), structure);
 	}
 	public string[] GetStructureNames()
 	{
-		return structures.Select(s => s.GetStructureName()).ToArray();
+		return structures.Values.Select(s => s.GetStructureName()).ToArray();
 	}
 	public string GetStructureName(string structureName)
 	{
-		Structure foundStructure = structures.FirstOrDefault(s => s.GetStructureName() == structureName);
-		if (foundStructure != null)
+		if (structures.ContainsKey(structureName))
 		{
-			return foundStructure.GetStructureName();
+			return structures[structureName].GetStructureName();
+		}
+		return null;
+	}
+	public Structure GetStructure(string structureName)
+	{
+		if (structures.ContainsKey(structureName))
+		{
+			return structures[structureName];
 		}
 		return null;
 	}
