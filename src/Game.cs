@@ -240,6 +240,9 @@ class Game
 			case "craft":
 				PlayerCraft(command);
 				break;
+			case "lore":
+				PlayerGetLore(command);
+				break;
 		}
 		EnemyAttacksPlayer();
 		return wantToQuit;
@@ -454,6 +457,12 @@ class Game
 				Console.WriteLine($"Cannot create {craftable}.");
 			}
 		}
+	}
+
+	private void PlayerGetLore(Command command)
+	{
+		string LORE = new Lore().GetLore(command.SecondWord);
+		Console.WriteLine(LORE);
 	}
 	
 	private Item CreateCraftedItem(string craftableName)

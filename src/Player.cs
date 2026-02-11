@@ -11,7 +11,7 @@ class Player
 		CurrentRoom = null;
 		MaxHealth = 100;
 		Health = MaxHealth;
-		backpack = new Inventory(25); // 25kg is best zwaar om de hele dag te dragen
+		backpack = new Inventory(50);
 	}
 
 	// health properties
@@ -161,7 +161,6 @@ class Player
 				break;
 
 			default:
-				Console.WriteLine("Nothing happened.");
 				break;
 		}
 
