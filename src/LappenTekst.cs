@@ -23,8 +23,29 @@ Better to stay quiet though, the owner sleeps upstairs!";
             case "gym":
                 return @"The new gym. It was built a year before you came here. There's nothing special about it.
 Showers are on the second floor! The stairs are closed so you'll have to find another way up";
+            case "library":
+                return @"The old library. It is ancient. Built in 1699, it is the oldest building together with the theatre.
+One of it's bookcases is displayed in the theatre for visitors to see.
+The stairs op to the first floor is still an original but are not used anymore.
+Maybe the books up there contain some more information about the colleges history?(to be added)";
+            case "lab":
+                return @"The college lab. Not much to say besides don't eat that apple!";
+            case "gymupper":
+                return @"Literally just the gym showers.";
+            case "office":
+                return @"The office. Boring ol' office. Located south of the library, it is still the same old office built a century ago.
+It smells like it too. So much dust has accumalated on the doorframe that if you shut it too hard, you get a dust shower.";
+            case "forge":
+                return @"A... forge? In a college?. The library should contain more information about it, but I never bothered looking.
+All I know is that it is still in operation and has some basic molds available for everybody to use, for whatever reason.";
+            case "sword":
+                return "Be carefull, it may not be as sharp anymore but it's still dangerous";
+            case "enhanced_sword":
+                return "What do you plan on doing with that? You E";
+            case "suspicious_apple":
+                return "Don't eat that";
             default:
-                return "";
+                return "There is no lore file about that subject.";
         }
     }
 }

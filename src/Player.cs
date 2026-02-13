@@ -149,8 +149,8 @@ class Player
 			case "suspicious_Apple":
 				Console.WriteLine("You eat the Suspicious Apple. It was delicious!");
 				Console.WriteLine("However, you suddenly feel very sleepy...");
-				Damage(10);
-				Console.WriteLine("You lost 10 Health.");
+				Damage(50);
+				Console.WriteLine("You lost 50 Health.");
 				break;
 
 			case "map":

@@ -84,17 +84,19 @@ class Game
 
 		// Create your Items here
 		Item Sword = new Item(10, "sword", false, 10);
-		Item Suspicious_Apple = new Item(5, "suspicious_Apple", false);
+		Item Suspicious_Apple = new Item(5, "suspicious_apple", true);
 		Item Key = new Item(1, "key", true);
 		Item Map = new Item(1, "map", false);
 		Item Ladder = new Item(15, "ladder", false);
 		Item Iron_Ingot = new Item(2, "iron_ingot", false);
 		Item Bandage = new Item(1, "bandage", false);
+		Item FishSlap = new Item(0,"slap!", false, -10);
 
 		// And add them to the Rooms
 		outside.AddItem(Sword);
 		outside.AddItem(Bandage);
 		outside.AddItem(Map);
+		outside.AddItem(FishSlap);
 		lab.AddItem(Suspicious_Apple);
 		lab.AddItem(Iron_Ingot);
 
