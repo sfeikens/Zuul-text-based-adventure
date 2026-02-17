@@ -1,6 +1,3 @@
-
-using System.Globalization;
-
 public class Item
 {
     //fields

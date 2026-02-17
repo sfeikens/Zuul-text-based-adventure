@@ -90,7 +90,7 @@ class Game
 		Item Ladder = new Item(15, "ladder", false);
 		Item Iron_Ingot = new Item(2, "iron_ingot", false);
 		Item Bandage = new Item(1, "bandage", false);
-		Item FishSlap = new Item(0,"slap!", false, -10);
+		Item FishSlap = new Item(0,"slap!", false, 0);
 
 		// And add them to the Rooms
 		outside.AddItem(Sword);
@@ -104,6 +104,13 @@ class Game
 		Room keyRoom = roomsByName[GetRandomRoomName()];
 		keyRoom.AddItem(Key);
 		player.KeyRoomName = keyRoom.GetRoomName();
+
+		// Randomly place some iron ingot
+		for (int i = 0; i <= 5;i++)
+		{
+			Room RandomIngot = roomsByName[GetRandomRoomName()];
+			RandomIngot.AddItem(Iron_Ingot);
+		}
 
 		// Randomly place map
 		//Room mapRoom = roomsByName[GetRandomRoomName()];
@@ -222,7 +229,7 @@ class Game
 				wantToQuit = true;
 				break;
 			case "look":
-				printLook();
+				printLook(command);
 				break;
 			case "take":
 				Take(command);
@@ -313,33 +320,23 @@ class Game
 			wantToQuit = true;
 		}
 	}
-	private void printLook()
-	{
-		Console.WriteLine(player.CurrentRoom.GetLongDescription());
-		
-		// Display available structures
-		string[] structureNames = player.CurrentRoom.GetStructureNames();
-		if (structureNames.Length > 0)
+	private void printLook(Command command)
+	{	
+		if (command.HasSecondWord())
 		{
-			Console.WriteLine("\nStructures: " + String.Join(", ", structureNames));
-			
-			// Display recipes for each structure
-			foreach (string structureName in structureNames)
+			string direction = command.SecondWord;
+			Room lookRoom = player.CurrentRoom.GetExit(direction);
+			if (lookRoom == null)
 			{
-				Structure structure = player.CurrentRoom.GetStructure(structureName);
-				var recipes = structure.GetStructureRecipes();
-				
-				if (recipes != null && recipes.Count > 0)
-				{
-					Console.WriteLine($"\n{structure.GetStructureName()} recipes:");
-					foreach (var recipe in recipes)
-					{
-						string ingredients = String.Join(", ", recipe.Value);
-						Console.WriteLine($"  - {recipe.Key}: requires {ingredients}");
-					}
-				}
+				Console.WriteLine("There is no door to "+direction+"!");
+				return;
 			}
+			Console.WriteLine(lookRoom.GetLongDescription());
+			lookRoom.PrintStructures();
+			return;
 		}
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		player.CurrentRoom.PrintStructures();
 	}
 
 	private void Take(Command command)
@@ -377,6 +374,8 @@ class Game
 		Console.WriteLine($"Health: {player.Health}/{player.MaxHealth}");
 		Console.WriteLine("Backpack: " + player.ShowBackpack());
 	}
+
+
 
 	private void PlayerUse(Command command)
 	{

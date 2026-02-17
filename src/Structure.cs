@@ -1,8 +1,10 @@
+#nullable enable
+
 class Structure
 {
     private string Name { get; set; }
     private string Description { get; set; }
-    private Dictionary<string, string[]> Recipes { get; set; }
+    private Dictionary<string, string[]>? Recipes { get; set; }
 
     public Structure(string name, string description, Dictionary<string, string[]>? recipes = null)
     {
@@ -18,7 +20,7 @@ class Structure
     {
         return this.Description;
     }
-    public Dictionary<string, string[]> GetStructureRecipes()
+    public Dictionary<string, string[]>? GetStructureRecipes()
     {
         return this.Recipes;
     }
