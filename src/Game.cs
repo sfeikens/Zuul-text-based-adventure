@@ -84,7 +84,7 @@ class Game
 
 		// Create your Items here
 		Item Sword = new Item(10, "sword", false, 10);
-		Item Suspicious_Apple = new Item(5, "suspicious_apple", true);
+		Item Suspicious_Apple = new Item(5, "sus_apple", true);
 		Item Key = new Item(1, "key", true);
 		Item Map = new Item(1, "map", false);
 		Item Ladder = new Item(15, "ladder", false);
@@ -335,8 +335,11 @@ class Game
 			lookRoom.PrintStructures();
 			return;
 		}
-		Console.WriteLine(player.CurrentRoom.GetLongDescription());
-		player.CurrentRoom.PrintStructures();
+		else
+		{
+			Console.WriteLine(player.CurrentRoom.GetLongDescription());
+			player.CurrentRoom.PrintStructures();
+		}
 	}
 
 	private void Take(Command command)
@@ -462,8 +465,7 @@ class Game
 
 	private void PlayerGetLore(Command command)
 	{
-		string LORE = new Lore().GetLore(command.SecondWord);
-		Console.WriteLine(LORE);
+		player.GetsLore(command.SecondWord);
 	}
 	
 	private Item CreateCraftedItem(string craftableName)

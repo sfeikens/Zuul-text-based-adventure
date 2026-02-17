@@ -97,6 +97,12 @@ class Player
 		}
 		return item.Description;
 	}
+
+	public void GetsLore(string subject)
+	{
+		string LORE = new Lore().GetLore(subject);
+		Console.WriteLine(LORE);
+	}
 	
 	// methods
 	public void Use(Command command)

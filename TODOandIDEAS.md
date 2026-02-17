@@ -1,9 +1,6 @@
 TODO Zuul
 =========
-+ add propah combat
-+ add more storytelling elements
++ add propah combat :(
 
 IDEAS Zuul
 ==========
-
-+ more randomized elements
