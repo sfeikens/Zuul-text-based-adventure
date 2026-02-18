@@ -197,7 +197,6 @@ class Game
 		Console.WriteLine();
 		Console.WriteLine("Your mission is to find the secret winning room and win the game!");
 		Console.WriteLine("In the future, the winning room and objective may be different each time you play.");
-		Console.WriteLine("But for now, I will leave you this hint: you feel incredibly stinky, maybe you should take a shower? ;)");
 		Console.WriteLine("Good luck!");
 		Console.WriteLine();
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
@@ -290,6 +289,7 @@ class Game
 
 		string direction = command.SecondWord;
 		bool hasLadder = player.PeekBackpack("ladder") != null;
+		
 		if ((direction == "up" || direction == "down") && !hasLadder)
 		{
 			Console.WriteLine("You can't go that way without a ladder!");
