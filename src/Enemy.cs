@@ -4,7 +4,8 @@ class Enemy
     public int CurrentHealth;
     private string Description;
     public int AttackDamage { get; set; }
-    private bool IsAlive
+    private PrintInColor print;
+    public bool IsAlive
     {
         get { return CurrentHealth > 0; }
     }
@@ -12,6 +13,7 @@ class Enemy
     public Item EquippedItem;
     public Enemy(int maxHealth, string description, Room room = null, int? damage = null)
     {
+        print = new PrintInColor();
         MaxHealth = maxHealth;
         CurrentHealth = maxHealth;
         Description = description;
@@ -38,7 +40,7 @@ class Enemy
             return;
         }
         player.Damage(damage);
-        Console.WriteLine($"The {Description} attacks you for {damage} damage!");
+        print.Color($"The {Description} attacks you for {damage} damage!", "red");
     }
     public string EnemyDescription()
     {

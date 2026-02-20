@@ -7,6 +7,7 @@ class Game
 	private Player player;
 	private Room winRoom;
 	private Dictionary<string, Room> roomsByName;
+	public PrintInColor print;
 
 	private bool wantToQuit;
 
@@ -16,6 +17,7 @@ class Game
 		parser = new Parser();
 		player = new Player();
 		roomsByName = new Dictionary<string, Room>();
+		print = new PrintInColor();
 		CreateRooms();
 	}
 

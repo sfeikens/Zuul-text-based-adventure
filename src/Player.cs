@@ -12,6 +12,7 @@ class Player
 		MaxHealth = 100;
 		Health = MaxHealth;
 		backpack = new Inventory(50);
+		print = new PrintInColor();
 	}
 
 	// health properties
@@ -20,6 +21,7 @@ class Player
 
 	// inventory
 	private Inventory backpack;
+	private PrintInColor print;
 
 	// speler verliest health
 	public void Damage(int amount)
@@ -101,7 +103,7 @@ class Player
 	public void GetsLore(string subject)
 	{
 		string LORE = new Lore().GetLore(subject);
-		Console.WriteLine(LORE);
+		print.Color(LORE, "darkyellow");
 	}
 	
 	// methods
@@ -165,7 +167,7 @@ class Player
 				Console.WriteLine("Winning Room: " + WinRoomName);
 				Console.WriteLine("Ladder Room: " + LadderRoomName);
 				break;
-
+				
 			default:
 				break;
 		}
